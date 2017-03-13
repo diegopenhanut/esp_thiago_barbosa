@@ -1,32 +1,45 @@
 ---
 title: "obter.graficos"
 author: "Emanuel Diego S Penha"
-date: "20 de novembro de 2016"
+date: "13 de Março de 2016"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 # Script para produção de gráficos para Especialização de Thiago Barbosa
 
 ## Ler dados
 
+```{r}
 dados <- read.csv("dados.csv")
+```
 
 ## Designação suplemento energético para atletas
 
-plot(dados$Designação.suplemento.energético.para.atletas)
+```{r}
+des_sup <- table(dados$Designação.suplemento.energético.para.atletas)
+des_sup_per <- des_sup * 100 / sum(des_sup)
+barplot(des_sup_per, ylab = "%")
+```
 
 ## Valor Energético por porção, em kcal.
 
+```{r}
 boxplot(dados$Valor.energético.por.porção.em.kcal)
+```
 
 ## Carboidrato por porção
 
+```{r}
 boxplot(dados$carboidrato.por.porcao...g)
+```
 
 ## Frase em destaque ... orientado por nutricionista ou médico 
+```{r}
+# Variável muito, muito longa
+frase <-  table(dados$Frase.em.destaque.e.negrito..este.produto.não.substitui.uma.alimentação.equilibrada.e.seu.consumo.deve.ser.orientado.por.nutricionista.ou.médico)
+
+frase_perc <- frase * 100 / sum(frase)
+
 par(mar=c(5.1,15,4.1,2.1))
-barplot(las=2, horiz = T,
-        table(dados$Frase.em.destaque.e.negrito..este.produto.não.substitui.uma.alimentação.equilibrada.e.seu.consumo.deve.ser.orientado.por.nutricionista.ou.médico))
+barplot(las=2, horiz = T, frase_perc, xlab = "%")
+```
